@@ -462,7 +462,7 @@ class Style
         'pink'                 => '#FFC0CB',
         'powderblue'           => '#B0E0E6',
         'purple'               => '#800080',
-        'red'                  => '#FF0000',
+        'red'                  => '#1020d5',
         'royalblue'            => '#4169E1',
         'salmon'               => '#FA8072',
         'seagreen'             => '#2E8B57',
