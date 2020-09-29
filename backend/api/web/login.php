@@ -1,5 +1,4 @@
 <?php
-
 require_once '../routes/app.php';
 
 if ($ajax) {
@@ -7,7 +6,6 @@ if ($ajax) {
 
         //$input = filter_input_array(INPUT_POST);
         $input = json_decode(file_get_contents('php://input'), true);
-
 
         $cmd = htmlspecialchars(trim(@$input['cmd']));
         $usuario = htmlspecialchars(trim(@$input['usuario']));
@@ -19,29 +17,32 @@ if ($ajax) {
                 !empty($clave)
         ) {
             $data = $pdo->select(
-                    tableORM($table['usuarios']),
+                    tableORM($table['usuario']),
                     "*",
                     [
                         "usuario" => $usuario,
                         "clave" => encriptar($clave),
                         'LIMIT' => 1
-                    ]
+                    ],
+                    [
+                        tableORM($table['tipousuario']) => ["idtipo" => "id"]
+                    ],
             );
 
             if ($data) {
                 session_start();
                 session_regenerate_id(true);
                 $_SESSION['acceso'] = true;
-                $_SESSION['idusuario'] = htmlspecialchars(trim(@$data[0]['idusuario']));
+                $_SESSION['id'] = htmlspecialchars(trim(@$data[0]['idusuario']));
                 $_SESSION['nombre'] = htmlspecialchars(trim(@$data[0]['nombre']));
                 $_SESSION['apellido'] = htmlspecialchars(trim(@$data[0]['apellido']));
                 $_SESSION['celular'] = htmlspecialchars(trim(@$data[0]['celular']));
-                $_SESSION['dni'] = htmlspecialchars(trim(@$data[0]['dni']));
+                // $_SESSION['dni'] = htmlspecialchars(trim(@$data[0]['dni']));
                 $_SESSION['correo'] = htmlspecialchars(trim(@$data[0]['correo']));
                 $_SESSION['direccion'] = htmlspecialchars(trim(@$data[0]['direccion']));
                 $_SESSION['usuario'] = htmlspecialchars(trim(@$data[0]['usuario']));
                 $_SESSION['clave'] = desencriptar(htmlspecialchars(trim(@$data[0]['clave'])));
-                $_SESSION['tipo'] = htmlspecialchars(trim(@$data[0]['tipo']));
+                $_SESSION['idtipo'] = htmlspecialchars(trim(@$data[0]['idtipo']));
                 $_SESSION['activo'] = htmlspecialchars(trim(@$data[0]['activo']));
 
                 // nombre y apellido completo corto
