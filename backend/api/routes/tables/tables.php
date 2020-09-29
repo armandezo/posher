@@ -1,5 +1,6 @@
 <?php
 
 $table = array(
-    'usuarios' => "`" . DB_NAME . "`" . '.`usuarios`',
+    'usuario' => "`" . DB_NAME . "`" . '.`usuario`',
+    'tipousuario' => "`" . DB_NAME . "`" . '.`tipo_usuario`',
 );
