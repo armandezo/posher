@@ -1,4 +1,6 @@
 <?php
+
+require '../../api/routes/permits_ionic/permisos_ionic.php';
 require_once '../routes/app.php';
 
 if ($ajax) {
