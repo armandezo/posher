@@ -1,0 +1,10 @@
+{
+    "require": {
+        "catfan/medoo": "^1.7",
+        "dompdf/dompdf": "^0.8.6",
+        "phpoffice/phpspreadsheet": "^1.14",
+        "endroid/qr-code": "^3.9",
+        "phpoffice/phpword": "dev-master",
+        "stripe/stripe-php": "^7.52"
+    }
+}
