@@ -18,44 +18,70 @@ if ($ajax) {
                 !empty($usuario) &&
                 !empty($clave)
         ) {
-            $data = $pdo->select(
-                    tableORM($table['usuario']),
-                    "*",
+            $data = $pdo->select(tableORM($table['usuario']),
                     [
-                        "usuario" => $usuario,
-                        "clave" => encriptar($clave),
-                        'LIMIT' => 1
+                        "[><]" . tableORM($table['tipousuario']) =>
+                        [
+                            "idtipo" => "id"
+                        ], // INNER JOIN
                     ],
                     [
-                        tableORM($table['tipousuario']) => ["idtipo" => "id"]
+                        // CAMPOS A SELECCIONAR
+                        // TABE.CAMPO
+                        tableORM($table['usuario']) . ".id(id)",
+                        tableORM($table['usuario']) . ".foto(photo)",
+                        tableORM($table['usuario']) . ".nombre(name)",
+                        tableORM($table['usuario']) . ".apellido(lastname)",
+                        tableORM($table['usuario']) . ".celular(phone)",
+                        tableORM($table['usuario']) . ".correo(email)",
+                        tableORM($table['usuario']) . ".direccion(address)",
+                        tableORM($table['usuario']) . ".usuario(user)",
+                        tableORM($table['usuario']) . ".clave(password)",
+                        tableORM($table['usuario']) . ".estado(status)",
+                        tableORM($table['usuario']) . ".idtipo(idtype)",
+                        tableORM($table['tipousuario']) . ".nombre(typename)", // (nombretipo) = AS nombretipo
                     ],
+                    [
+                        // WHERE
+                        tableORM($table['usuario']) . ".usuario" => $usuario,
+                        tableORM($table['usuario']) . ".clave" => $clave,
+                        tableORM($table['usuario']) . ".estado" => 'activo',
+                        tableORM($table['tipousuario']) . ".estado" => 'activo',
+                        "LIMIT" => 1
+                    ]
             );
+
+            // sirve para ver en que estamos fallando :
+            // var_dump($pdo->error());
+            //imprimir($data);
 
             if ($data) {
                 session_start();
                 session_regenerate_id(true);
                 $_SESSION['acceso'] = true;
-                $_SESSION['id'] = htmlspecialchars(trim(@$data[0]['idusuario']));
-                $_SESSION['nombre'] = htmlspecialchars(trim(@$data[0]['nombre']));
-                $_SESSION['apellido'] = htmlspecialchars(trim(@$data[0]['apellido']));
-                $_SESSION['celular'] = htmlspecialchars(trim(@$data[0]['celular']));
-                // $_SESSION['dni'] = htmlspecialchars(trim(@$data[0]['dni']));
-                $_SESSION['correo'] = htmlspecialchars(trim(@$data[0]['correo']));
-                $_SESSION['direccion'] = htmlspecialchars(trim(@$data[0]['direccion']));
-                $_SESSION['usuario'] = htmlspecialchars(trim(@$data[0]['usuario']));
-                $_SESSION['clave'] = desencriptar(htmlspecialchars(trim(@$data[0]['clave'])));
-                $_SESSION['idtipo'] = htmlspecialchars(trim(@$data[0]['idtipo']));
-                $_SESSION['activo'] = htmlspecialchars(trim(@$data[0]['activo']));
+                $_SESSION['id'] = htmlspecialchars(trim(@$data[0]['id']));
+                $_SESSION['photo'] = htmlspecialchars(trim(@$data[0]['photo']));
+                $_SESSION['name'] = htmlspecialchars(trim(@$data[0]['name']));
+                $_SESSION['lastname'] = htmlspecialchars(trim(@$data[0]['lastname']));
+                $_SESSION['phone'] = htmlspecialchars(trim(@$data[0]['phone']));
+                $_SESSION['email'] = htmlspecialchars(trim(@$data[0]['email']));
+                $_SESSION['address'] = htmlspecialchars(trim(@$data[0]['address']));
+                $_SESSION['user'] = htmlspecialchars(trim(@$data[0]['user']));
+                $_SESSION['password'] = desencriptar(htmlspecialchars(trim(@$data[0]['password'])));
+                $_SESSION['status'] = htmlspecialchars(trim(@$data[0]['status']));
+                $_SESSION['idtype'] = htmlspecialchars(trim(@$data[0]['idtype']));
+                $_SESSION['typename'] = htmlspecialchars(trim(@$data[0]['typename']));
+
 
                 // nombre y apellido completo corto
-                $nom = explode(" ", htmlspecialchars(trim(@$data[0]['nombre'])));
-                $ape = explode(" ", htmlspecialchars(trim(@$data[0]['apellido'])));
+                $nom = explode(" ", htmlspecialchars(trim(@$data[0]['name'])));
+                $ape = explode(" ", htmlspecialchars(trim(@$data[0]['lastname'])));
                 $_SESSION['pr_nombre'] = $nom[0];
                 $_SESSION['nom_ape'] = $nom[0] . ' ' . $ape[0];
                 // 
 
                 $json['status'] = 'Ok';
-                $json['msg'] = 'Bienvenido, ' . htmlspecialchars(trim(@$data[0]['nombre'])) . ' ' . htmlspecialchars(trim(@$data[0]['apellido'])) . '.';
+                $json['msg'] = 'Bienvenido, ' . htmlspecialchars(trim(@$data[0]['name'])) . ' ' . htmlspecialchars(trim(@$data[0]['lastname'])) . '.';
                 $json['data'] = $data;
             } else {
                 $json['msg'] = $string['error_login'];

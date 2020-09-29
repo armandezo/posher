@@ -21,7 +21,6 @@ if ($ajax) {
             $nombre = htmlspecialchars(trim(@$input['nombre']));
             $apellido = htmlspecialchars(trim(@$input['apellido']));
             $celular = htmlspecialchars(trim(@$input['celular']));
-            $dni = htmlspecialchars(trim(@$input['dni']));
             $correo = htmlspecialchars(trim(@$input['correo']));
             $direccion = htmlspecialchars(trim(@$input['direccion']));
             $usuario = htmlspecialchars(trim(@$input['usuario']));
@@ -32,24 +31,23 @@ if ($ajax) {
                     !empty($nombre) &&
                     !empty($apellido) &&
                     !empty($celular) &&
-                    !empty($dni) &&
                     !empty($correo) &&
                     !empty($direccion) &&
                     !empty($usuario) &&
                     !empty($clave)
             ) {
                 $data = $pdo->insert(
-                        tableORM($table['usuarios']),
+                        tableORM($table['usuario']),
                         [
                             "nombre" => ucwords($nombre),
                             "apellido" => ucwords($apellido),
                             "celular" => $celular,
-                            "dni" => $dni,
                             "correo" => $correo,
                             "direccion" => $direccion,
                             "usuario" => $usuario,
                             "clave" => encriptar($clave),
-                            "activo" => "activo"
+                            "idtipo" => 2,
+                            "estado" => "activo"
                         ]
                 );
 
