@@ -1,13 +1,13 @@
 <?php
 
-require '../../api/routes/permits_ionic/permisos_ionic.php';
+//require '../../api/routes/permits_ionic/permisos_ionic.php';
 require_once '../routes/app.php';
 
 if ($ajax) {
     if (isRequest() == 'POST') {
 
-        //$input = filter_input_array(INPUT_POST);
-        $input = json_decode(file_get_contents('php://input'), true);
+        $input = filter_input_array(INPUT_POST);
+//        $input = json_decode(file_get_contents('php://input'), true);
 
         $cmd = htmlspecialchars(trim(@$input['cmd']));
         $usuario = htmlspecialchars(trim(@$input['usuario']));
@@ -44,7 +44,7 @@ if ($ajax) {
                     [
                         // WHERE
                         tableORM($table['usuario']) . ".usuario" => $usuario,
-                        tableORM($table['usuario']) . ".clave" => $clave,
+                        tableORM($table['usuario']) . ".clave" => encriptar($clave),
                         tableORM($table['usuario']) . ".estado" => 'activo',
                         tableORM($table['tipousuario']) . ".estado" => 'activo',
                         "LIMIT" => 1

@@ -6,12 +6,12 @@ require_once '../routes/app.php';
 if ($ajax) {
     if (isRequest() == 'POST') {
 
-        //$input = filter_input_array(INPUT_POST);
-        $input = json_decode(file_get_contents('php://input'), true);
+        $input = filter_input_array(INPUT_POST);
+        //$input = json_decode(file_get_contents('php://input'), true);
 
         $userVerify = htmlspecialchars(trim(@$input['usuario']));
 
-        $verificar = $pdo->select(tableORM($table['usuarios']), "usuario", [
+        $verificar = $pdo->select(tableORM($table['usuario']), "usuario", [
             "usuario" => $userVerify
         ]);
 
@@ -23,8 +23,8 @@ if ($ajax) {
             $celular = htmlspecialchars(trim(@$input['celular']));
             $correo = htmlspecialchars(trim(@$input['correo']));
             $direccion = htmlspecialchars(trim(@$input['direccion']));
-            $usuario = htmlspecialchars(trim(@$input['usuario']));
-            $clave = htmlspecialchars(trim(@$input['clave']));
+            $usuario = htmlspecialchars(trim(@$input['usuarioreg']));
+            $clave = htmlspecialchars(trim(@$input['clavereg']));
 
             if (
                     $cmd === 'register' &&
@@ -44,7 +44,7 @@ if ($ajax) {
                             "celular" => $celular,
                             "correo" => $correo,
                             "direccion" => $direccion,
-                            "usuario" => $usuario,
+                            "usuario" => str_replace(" ", "", $usuario),
                             "clave" => encriptar($clave),
                             "idtipo" => 2,
                             "estado" => "activo"
