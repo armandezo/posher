@@ -757,8 +757,9 @@
                 <div class="container">
                     <form class="ps-form--account ps-tab-root" id="formloginregister" name="formloginregister" action="#" method="POST" style="padding-top: 0px;">
                         <ul class="ps-tab-list">
-                            <li class="active"><a href="#sign-in" style="font-weight: 800;color:#343df5">Ingreso</a></li>
-                            <li><a href="#register" style="font-weight: 800;color:#343df5">Registro</a></li>
+                            <li class="active"><a href="#sign-in" style="font-weight: 800;color:#343df5; font-size: 25px;">Ingreso</a></li>
+                            <li><a href="#register" style="font-weight: 800;color:#343df5;font-size: 25px;">Registro</a></li>
+                            <li><a href="#recovery" style="font-weight: 800;color:#343df5;font-size: 25px;">Recuperar</a></li>
                         </ul>
                         <div class="ps-tabs">
                             <div class="ps-tab active" id="sign-in">
@@ -768,7 +769,7 @@
                                         <input class="form-control" type="text" placeholder="Usuario o Correo Electrónico" id="usuario" name="usuario">
                                     </div>
                                     <div class="form-group form-forgot">
-                                        <input class="form-control" type="password" placeholder="Contraseña" id="clave" name="clave"><a href="">¿Olvidaste tu Contraseña?</a>
+                                        <input class="form-control" type="password" placeholder="Contraseña" id="clave" name="clave">
                                     </div>
                                     <div class="form-group">
                                         <div class="ps-checkbox">
@@ -790,6 +791,7 @@
                                     </ul>
                                 </div>
                             </div>
+
                             <div class="ps-tab" id="register">
                                 <div class="ps-form__content">
                                     <h4 class="pb-5">Registrate es gratis!</h4>
@@ -803,13 +805,13 @@
                                         <input class="form-control" type="tel" placeholder="N° Celular/Telefono" id="celular" name="celular" maxlength="13">
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" type="text" placeholder="Direccion" id="direccion" name="direccion" maxlength="50">
+                                        <input class="form-control" type="text" placeholder="Dirección" id="direccion" name="direccion" maxlength="50">
                                     </div>
                                     <div class="form-group">
                                         <input class="form-control" type="email" placeholder="Correo Electrónico" id="correo" name="correo" maxlength="50">
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" type="text" placeholder="Crear Nuevo Uuario" id="usuarioreg" name="usuarioreg" maxlength="50">
+                                        <input class="form-control" type="text" placeholder="Crear Nuevo Usuario" id="usuarioreg" name="usuarioreg" maxlength="50">
                                     </div>
                                     <div class="form-group">
                                         <input class="form-control" type="password" placeholder="Contraseña" id="clavereg" name="clavereg" maxlength="50">
@@ -828,6 +830,27 @@
                                     </ul>
                                 </div>
 
+                            </div>
+
+                            <div class="ps-tab" id="recovery">
+                                <div class="ps-form__content">
+                                    <h4 class="pb-5">Recuperar Cuenta!</h4>
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" placeholder="Correo Electrónico" id="nombre" name="nombre" maxlength="50">
+                                    </div>
+                                    <div class="form-group submtit">
+                                        <button class="ps-btn ps-btn--fullwidth btnregister" style="color: white !important;" type="button">Recuperar Mi Cuenta</button>
+                                    </div>
+                                </div>
+                                <div class="ps-form__footer">
+                                    <p>Conectar con:</p>
+                                    <ul class="ps-list--social">
+                                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                                        <li><a class="google" href="#"><i class="fa fa-google-plus"></i></a></li>
+                                        <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                                        <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -1002,65 +1025,7 @@
         <!-- custom scripts-->
         <script src="../js/main.js"></script>
 
-        <script>
-            $(document).ready(function () {
-                $(".btnlogin").click(function () {
-                    var user = $("#usuario").val();
-                    var password = $("#clave").val();
-                    $.post(ruta() + "login",
-                            {
-                                usuario: user,
-                                clave: password,
-                                cmd: 'login'
-                            },
-                            function (json) {
-
-                                if (json['status'] == 'Error') {
-                                    toastr.error('Alerta', json['msg']);
-                                } else if (json['status'] == 'Ok') {
-                                    toastr.success('Bien Hecho', json['msg']);
-
-                                    setTimeout(function () {
-                                        location.href = "../micuenta";
-                                    }, 2000);
-
-                                }
-                            });
-                });
-            });
-
-            $(document).ready(function () {
-                $(".btnregister").click(function () {
-                    var nombre = $("#nombre").val();
-                    var apellido = $("#apellido").val();
-                    var direccion = $("#direccion").val();
-                    var correo = $("#correo").val();
-                    var celular = $("#celular").val();
-                    var user = $("#usuarioreg").val();
-                    var password = $("#clavereg").val();
-                    $.post(ruta() + "register",
-                            {
-                                nombre: nombre,
-                                apellido: apellido,
-                                direccion: direccion,
-                                celular: celular,
-                                correo: correo,
-                                usuarioreg: user,
-                                clavereg: password,
-                                cmd: 'register'
-                            },
-                            function (json) {
-
-                                if (json['status'] == 'Error') {
-                                    toastr.error('Alerta', json['msg']);
-                                } else if (json['status'] == 'Ok') {
-                                    toastr.success('Bien Hecho', json['msg']);
-                                    document.getElementById("formloginregister").reset();
-                                }
-                            });
-                });
-            });
-        </script>
+        <script src="js/login_register.js" type="text/javascript"></script>
     </body>
 
 </html>

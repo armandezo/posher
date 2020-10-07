@@ -2,8 +2,6 @@
 
 $hoy = date("Y-m-d");
 
-require '../../Medoo/vendor/autoload.php';
-
 use Medoo\Medoo;
 
 if ($typeconexion == 'orm') {

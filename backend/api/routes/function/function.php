@@ -32,7 +32,7 @@ function encriptar($string) {
 }
 
 function desencriptar($string) {
-    return base64_encode($string);
+    return base64_decode($string);
 }
 
 function tableORM($tableName) {

@@ -67,7 +67,7 @@ if ($ajax) {
                 $_SESSION['email'] = htmlspecialchars(trim(@$data[0]['email']));
                 $_SESSION['address'] = htmlspecialchars(trim(@$data[0]['address']));
                 $_SESSION['user'] = htmlspecialchars(trim(@$data[0]['user']));
-                $_SESSION['password'] = desencriptar(htmlspecialchars(trim(@$data[0]['password'])));
+                $_SESSION['password'] = htmlspecialchars(trim(@$data[0]['password']));
                 $_SESSION['status'] = htmlspecialchars(trim(@$data[0]['status']));
                 $_SESSION['idtype'] = htmlspecialchars(trim(@$data[0]['idtype']));
                 $_SESSION['typename'] = htmlspecialchars(trim(@$data[0]['typename']));
@@ -82,7 +82,9 @@ if ($ajax) {
 
                 $json['status'] = 'Ok';
                 $json['msg'] = 'Bienvenido, ' . htmlspecialchars(trim(@$data[0]['name'])) . ' ' . htmlspecialchars(trim(@$data[0]['lastname'])) . '.';
-                $json['data'] = $data;
+                //$json['data'] = $data;
+                
+                // imprimir($json);
             } else {
                 $json['msg'] = $string['error_login'];
             }
